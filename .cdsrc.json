@@ -1,0 +1,11 @@
+{
+	"requires": {
+		"auth": {
+			"kind": "basic",
+            "impl": "srv/auth.js",
+			"users": {
+				"*": true
+			}
+		}
+	}
+}
