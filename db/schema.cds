@@ -9,6 +9,9 @@ using { cuid, User } from '@sap/cds/common';
 entity ROLE {
     key ROLE_ID     : Integer;
         DESCRIPTION : String;
+
+        LINK_TO_ALL_USERS: Association to many  USER on LINK_TO_ALL_USERS.ROLE_ID = ROLE_ID and  DESCRIPTION = 'CUSTOMER';
+        LINK_TO_ALL_ADMINISTRATORS: Association to many  USER on LINK_TO_ALL_ADMINISTRATORS.ROLE_ID = ROLE_ID and DESCRIPTION = 'ADMINISTRATOR' ;
 }
 
 @(restrict: [
