@@ -13,15 +13,15 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainPage logedIn={logedIn} children={<>Home</>} />,
+      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<>Home</>} />,
     },
     {
       path: "/register",
-      element: <MainPage logedIn={logedIn} children={<Register />} />,
+      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<Register />} />,
     },
     {
       path: "/login",
-      element: <MainPage logedIn={logedIn} children={<Login />} />,
+      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<Login />} />,
     },
     {
       path: "/logout",

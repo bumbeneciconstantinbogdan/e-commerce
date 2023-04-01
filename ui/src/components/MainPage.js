@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, createContext } from "react";
 
 import {
   Input,
@@ -9,24 +9,32 @@ import {
 } from "@ui5/webcomponents-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+export const Context = createContext()
+
+
 const MainPage = ({ children, logedIn, setLogedIn = undefined }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     switch (location.pathname) {
       case "/register":
         return;
       case "/login":
         return;
-      case "/logout": setLogedIn(() => false)
+      case "/logout":
+        setLogedIn(() => false);
       // eslint-disable-next-line no-fallthrough
       default: {
         !logedIn && navigate("/login");
         return;
       }
     }
-  }, [location.pathname, logedIn, navigate, setLogedIn]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, logedIn, setLogedIn]);
 
   return (
     <>
@@ -74,7 +82,9 @@ const MainPage = ({ children, logedIn, setLogedIn = undefined }) => {
       >
         {logedIn && <ShellBarItem count="3" icon="add" text="ShellBarItem" />}
       </ShellBar>
-      {children}
+      <Context.Provider value={{setLogedIn}}>
+        {children}
+      </Context.Provider>
     </>
   );
 };

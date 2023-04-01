@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useRef, useState, useContext } from "react";
 import {
   Form,
   FormItem,
@@ -9,10 +8,45 @@ import {
   Button,
   Link,
 } from "@ui5/webcomponents-react";
-import {  useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Context } from "./MainPage";
+import {useNavigate} from "react-router-dom"
 
 const Login = () => {
-  const navigate = useNavigate();
+  const [stat, setStat] = useState({ EMAIL: "None", PASSWORD: "None" });
+  const { setLogedIn } = useContext(Context);
+  const emailRef = useRef();
+  const passRef = useRef();
+  const navigate = useNavigate()
+
+
+  const handleLogin = async () => {
+    const EMAIL = emailRef.current.value;
+    const PASSWORD = passRef.current.value;
+    // fetch("/ecommerce/login", { method: "POST", headers: {"Content-Type": "application/json"} , body: JSON.stringify({ EMAIL, PASSWORD }) })
+    //   .then(data => console.log(data))
+    //   .catch(e =>console.error(e.body));
+    axios
+      .post("/ecommerce/login", { EMAIL, PASSWORD })
+      .then(() => {
+        setStat({ EMAIL: "None", PASSWORD: "None" });
+        setLogedIn((prev) => true);
+        navigate('/')
+      })
+      .catch((err) => {
+        console.log(err);
+        if (
+          err.response.data.error.message === "User with email  doesn't exists."
+        ) {
+          setStat({ EMAIL: "Error", PASSWORD: "Error" });
+        }
+
+        if (err.response.data.error.message === "Password is incorrect.") {
+          setStat({ EMAIL: "Success", PASSWORD: "Error" });
+        }
+      });
+  };
+
   return (
     <Form
       backgroundDesign="Transparent"
@@ -33,14 +67,17 @@ const Login = () => {
       titleText="Login Form"
     >
       <FormGroup titleText="Enter you email and password">
-        <FormItem  label="Email">
-          <Input type="Email" />
+        <FormItem label="Email">
+          <Input valueState={stat.EMAIL} ref={emailRef} type="Email" />
         </FormItem>
         <FormItem label="Password">
-          <Input type="Password" />
+          <Input valueState={stat.PASSWORD} ref={passRef} type="Password" />
         </FormItem>
         <FormItem label="">
-          <Button style={{width: "500"}}> Login </Button>
+          <Button onClick={handleLogin} style={{ width: "500" }}>
+            {" "}
+            Login{" "}
+          </Button>
         </FormItem>
         <FormItem label="">
           <Text>

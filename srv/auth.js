@@ -36,10 +36,11 @@ module.exports = async function auth(req, res, next) {
 		return next();
 	} catch (e) {
 		//FOR ACCOUNT CREATION - BYPASS AUTHORIZATION
-		if (req.method === "POST" && req.originalUrl === "/ecommerce/User") {
+		if (req.method === "POST" && ( req.originalUrl === "/ecommerce/User"  || req.originalUrl === "/ecommerce/login")) {
 			req.user = new cds.User();
 			return next();
 		}
+
 
 		return res.status(401).json({
 			error: {
