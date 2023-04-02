@@ -49,6 +49,7 @@ const Login = () => {
     };
 
     const handleOnSuccess = (res) => {
+        localStorage.setItem("EMAIL", loginData.EMAIL)
         dispatch({ type: "login", payload: res.data.value });
         navigate('/');
     }

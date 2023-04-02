@@ -1,12 +1,12 @@
 import { useContext, useEffect } from "react";
 import {
   ShellBar,
-  Avatar,
   FormGroup,
   FormItem,
   Link,
   Text,
   Form,
+  Icon,
 } from "@ui5/webcomponents-react";
 import axios from "axios";
 
@@ -44,7 +44,7 @@ const MainPage = ({ children }) => {
           Authorization: state.Authorization,
         },
       })
-      .then(console.log)
+      // .then(console.log)
       .catch(handleRouteOnError);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, navigate, state.Authorization]);
@@ -62,18 +62,14 @@ const MainPage = ({ children }) => {
         onProductSwitchClick={function ka() {}}
         primaryTitle="SIAE"
         profile={
-         state.Authorization && <Avatar>
-            <img
-              src="https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg"
-              alt="avatar"
-            />
-          </Avatar>
+         state.Authorization && <Icon style={{scale: "1.25"}} design="Contrast"  name="employee">
+            {/* <Icon name="account" /> */}
+          </Icon>
         }
 
         onProfileClick={()=> navigate('/profile')}
         secondaryTitle="Project"
         showCoPilot={state.Authorization && true}
-        showProductSwitch={state.Authorization && true}
       ></ShellBar>
       <Form
         backgroundDesign="Transparent"

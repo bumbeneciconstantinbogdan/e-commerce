@@ -9,53 +9,55 @@ import {
   CheckBox,
 } from "@ui5/webcomponents-react";
 import axios from "axios";
-import { useReducer, useState } from "react";
+import {  useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const initialState = {
-  EMAIL: "None",
-  PASSWORD: "None",
-  REPEATPASSWORD: "None",
-  CHECKBOX: "None",
-};
 
-function reducer(state, action) {
-  const { errorTable } = action.type;
-
-  if(action.type.reset){
-    return initialState;
-  }
-  
-  if (errorTable) {
-    if (errorTable[0] === 1) {
-      state.EMAIL = "Error";
-    } else {
-      state.EMAIL = "None";
-    }
-
-    if (errorTable[1] === 1) {
-      state.PASSWORD = "Error";
-    } else {
-      state.PASSWORD = "None";
-    }
-
-    if (errorTable[2] === 1) {
-      state.REPEATPASSWORD = "Error";
-    } else {
-      state.REPEATPASSWORD = "None";
-    }
-
-    if (errorTable[3] === 1) {
-      state.CHECKBOX = "Error";
-    } else {
-      state.CHECKBOX = "None";
-    }
-  }
-
-  return { ...state };
-}
 
 const Register = () => {
+  const initialState = {
+    EMAIL: "None",
+    PASSWORD: "None",
+    REPEATPASSWORD: "None",
+    CHECKBOX: "None",
+  };
+  
+  function reducer(state, action) {
+    const { errorTable } = action.type;
+  
+    if(action.type.reset){
+      return initialState;
+    }
+    
+    if (errorTable) {
+      if (errorTable[0] === 1) {
+        state.EMAIL = "Error";
+      } else {
+        state.EMAIL = "None";
+      }
+  
+      if (errorTable[1] === 1) {
+        state.PASSWORD = "Error";
+      } else {
+        state.PASSWORD = "None";
+      }
+  
+      if (errorTable[2] === 1) {
+        state.REPEATPASSWORD = "Error";
+      } else {
+        state.REPEATPASSWORD = "None";
+      }
+  
+      if (errorTable[3] === 1) {
+        state.CHECKBOX = "Error";
+      } else {
+        state.CHECKBOX = "None";
+      }
+    }
+  
+    return { ...state };
+  }
+  
   const [registerData, setRegisterData] = useState({
     EMAIL: "",
     PASSWORD: "",
@@ -92,15 +94,10 @@ const Register = () => {
       errorTable[1] = 1;
       errorTable[2] = 1;
     }
-
-    
     
     if(errorTable.includes(1)){
       return formDispatch({ type: { errorTable } }); 
     }
-
-    console.log(formState)
-
 
     const { EMAIL, PASSWORD } = registerData;
 
