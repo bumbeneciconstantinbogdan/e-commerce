@@ -5,27 +5,33 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { FlexBox, Text } from "@ui5/webcomponents-react";
-import { useState } from "react";
+import { createContext, useReducer } from "react";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+
+export const Context = createContext();
 
 function App() {
-  const [logedIn, setLogedIn] = useState(false);
-
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<>Home</>} />,
+      element: <MainPage children={<Home />} />,
     },
     {
       path: "/register",
-      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<Register />} />,
+      element: <MainPage children={<Register />} />,
     },
     {
       path: "/login",
-      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} children={<Login />} />,
+      element: <MainPage children={<Login />} />,
+    },
+    {
+      path: "/profile",
+      element: <MainPage children={<Profile />} />
     },
     {
       path: "/logout",
-      element: <MainPage logedIn={logedIn} setLogedIn={setLogedIn} />,
+      element: <MainPage />
     },
     {
       path: "*",
@@ -50,10 +56,27 @@ function App() {
     },
   ]);
 
+  const initialState = { Authorization: localStorage.getItem("Authorization") };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "login":
+        localStorage.setItem("Authorization", action.payload);
+        return { ...state, Authorization: action.payload };
+      case "logout":
+        localStorage.clear("Authorization");
+        return { ...state, Authorization: "" };
+      default:
+        throw new Error();
+    }
+  }
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <>
+    <Context.Provider value={{ state, dispatch }}>
       <RouterProvider router={router} />
-    </>
+    </Context.Provider>
   );
 }
 

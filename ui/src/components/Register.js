@@ -1,7 +1,5 @@
-import React from "react";
-
+/* eslint-disable no-useless-escape */
 import {
-  Form,
   FormItem,
   Input,
   FormGroup,
@@ -10,80 +8,191 @@ import {
   Link,
   CheckBox,
 } from "@ui5/webcomponents-react";
-
+import axios from "axios";
+import { useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const initialState = {
+  EMAIL: "None",
+  PASSWORD: "None",
+  REPEATPASSWORD: "None",
+  CHECKBOX: "None",
+};
+
+function reducer(state, action) {
+  const { errorTable } = action.type;
+
+  if(action.type.reset){
+    return initialState;
+  }
+  
+  if (errorTable) {
+    if (errorTable[0] === 1) {
+      state.EMAIL = "Error";
+    } else {
+      state.EMAIL = "None";
+    }
+
+    if (errorTable[1] === 1) {
+      state.PASSWORD = "Error";
+    } else {
+      state.PASSWORD = "None";
+    }
+
+    if (errorTable[2] === 1) {
+      state.REPEATPASSWORD = "Error";
+    } else {
+      state.REPEATPASSWORD = "None";
+    }
+
+    if (errorTable[3] === 1) {
+      state.CHECKBOX = "Error";
+    } else {
+      state.CHECKBOX = "None";
+    }
+  }
+
+  return { ...state };
+}
+
 const Register = () => {
+  const [registerData, setRegisterData] = useState({
+    EMAIL: "",
+    PASSWORD: "",
+    REPEATPASSWORD: "",
+    CHECKBOX: false,
+  });
+
+  const [formState, formDispatch] = useReducer(reducer, initialState);
+
   const navigate = useNavigate();
 
+  const handleRegister = () => {
+    const errorTable = [0, 0, 0, 0];
+    formDispatch({type: {reset: true}})
+
+    if (!registerData.CHECKBOX) {
+      errorTable[3] = 1;
+    }
+
+    //REGEX for email validation
+    if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        registerData.EMAIL
+      ) ||
+      registerData.EMAIL === ""
+    ) {
+      errorTable[0] = 1;
+    }
+
+    if (
+      registerData.PASSWORD !== registerData.REPEATPASSWORD ||
+      registerData.REPEATPASSWORD === ""
+    ) {
+      errorTable[1] = 1;
+      errorTable[2] = 1;
+    }
+
+    
+    
+    if(errorTable.includes(1)){
+      return formDispatch({ type: { errorTable } }); 
+    }
+
+    console.log(formState)
+
+
+    const { EMAIL, PASSWORD } = registerData;
+
+    const handleOnSuccess = (res) => {
+      navigate('/login')
+    };
+
+    const handleOnError = (err) => {
+      const errorMessage = err.response.data.error.message;
+      // console.log(errorMessage)
+
+      if(errorMessage.toUpperCase().includes('EMAIL')){
+        errorTable[0] = 1;
+        formDispatch({type: {errorTable}})
+      }
+
+      if(errorMessage.toUpperCase().includes('FORMAT')){
+        errorTable[1] = 1;
+        formDispatch({type: {errorTable}})
+      }
+
+    }
+
+    axios
+      .post("/ecommerce/User", { EMAIL, PASSWORD })
+      .then(handleOnSuccess)
+      .catch(handleOnError);
+
+   
+  };
+
   return (
-    <Form
-      backgroundDesign="Transparent"
-      columnsL={1}
-      columnsM={1}
-      columnsS={1}
-      columnsXL={1}
-      labelSpanL={3}
-      labelSpanM={3}
-      labelSpanS={12}
-      labelSpanXL={3}
-      style={{
-        alignItems: "center",
-        width: "100%",
-        margin: "auto",
-        padding: "1em 1em",
-      }}
-      titleText="Register Form"
-    >
-      <FormGroup titleText="Fill with your data">
-        <FormItem label="Email">
-          <Input type="Email" />
-        </FormItem>
-        <FormItem label="Password">
-          <Input type="Password" />
-        </FormItem>
-        <FormItem label="Repeat password">
-          <Input type="Password" />
-        </FormItem>
-        <FormItem label="">
-          <CheckBox text="I agree terms and conditions." />
-        </FormItem>
-        <FormItem label="">
-          <Button> Register </Button>
-        </FormItem>
-        <FormItem label="">
-          <Text>
-            To the{" "}
-            <Link
-              accessibleRole="button"
-              onClick={() => navigate("/login")}
-              children={"login"}
-            />
-            .
-          </Text>
-        </FormItem>
-      </FormGroup>
-      <FormGroup titleText="General Info">
-        <FormItem label="Client">
-          <Link href="http://localhost:3000">htttp://localhost:3000</Link>
-        </FormItem>
-        <FormItem label="Server">
-          <Link href="http://localhost:4004">htttp://localhost:4004</Link>
-        </FormItem>
-        <FormItem label="Email">
-          <Link>cbumbeneci@stud.electro.upb.ro</Link>
-        </FormItem>
-        <FormItem label="">
-          <Link>alecu.mihnea@stud.electro.upb.ro</Link>
-        </FormItem>
-        <FormItem label="Homework for">
-          <Text>Politehnica - IEIA I - SIAE</Text>
-        </FormItem>
-        <FormItem label="Address">
-          <Text>Bucharest, Romania</Text>
-        </FormItem>
-      </FormGroup>
-    </Form>
+    <FormGroup titleText="Fill with your data">
+      <FormItem label="Email">
+        <Input
+          onChange={(e) =>
+            setRegisterData((prev) => {
+              return { ...prev, EMAIL: e.target.value };
+            })
+          }
+          valueState={formState.EMAIL}
+          type="Email"
+        />
+      </FormItem>
+      <FormItem label="Password">
+        <Input
+          onChange={(e) =>
+            setRegisterData((prev) => {
+              return { ...prev, PASSWORD: e.target.value };
+            })
+          }
+          valueState={formState.PASSWORD}
+          type="Password"
+        />
+      </FormItem>
+      <FormItem label="Repeat password">
+        <Input
+          onChange={(e) =>
+            setRegisterData((prev) => {
+              return { ...prev, REPEATPASSWORD: e.target.value };
+            })
+          }
+          valueState={formState.REPEATPASSWORD}
+          type="Password"
+        />
+      </FormItem>
+      <FormItem label="">
+        <CheckBox
+          valueState={formState.CHECKBOX}
+          onChange={(e) =>
+            setRegisterData((prev) => {
+              return { ...prev, CHECKBOX: !prev.CHECKBOX };
+            })
+          }
+          text="I agree terms and conditions."
+        />
+      </FormItem>
+      <FormItem label="">
+        <Button onClick={handleRegister}> Register </Button>
+      </FormItem>
+      <FormItem label="">
+        <Text>
+          Navigate to the{" "}
+          <Link
+            accessibleRole="button"
+            onClick={() => navigate("/login")}
+            children={"login"}
+          />{" "}
+          page.
+        </Text>
+      </FormItem>
+    </FormGroup>
   );
 };
 
