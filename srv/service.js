@@ -82,4 +82,37 @@ module.exports = (srv) => {
       req.reject(400, e);
     }
   });
+
+  srv.on("reset", async (req) => {
+    try {
+      await UPDATE("my_ecommerce_BIT8_CARD_INPUT").set(
+        {
+          DIO_0 : false,
+          DIO_1 : false,
+          DIO_2 : false,
+          DIO_3 : false,
+          DIO_4 : false,
+          DIO_5 : false,
+          DIO_6 : false,
+          DIO_7 : false,
+        }
+      ).where({BIT8_CARD_ID: 1});
+
+      await UPDATE("my_ecommerce_BIT8_CARD_OUTPUT").set(
+        {
+          DIO_0 : false,
+          DIO_1 : false,
+          DIO_2 : false,
+          DIO_3 : false,
+          DIO_4 : false,
+          DIO_5 : false,
+          DIO_6 : false,
+          DIO_7 : false,
+        }
+      ).where({BIT8_CARD_ID: 1});
+
+    } catch (e) {
+      req.reject(400, e);
+    }
+  });
 };

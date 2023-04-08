@@ -1,0 +1,112 @@
+-- https://www.geeksforgeeks.org/bcd-to-7-segment-decoder/
+CREATE PROCEDURE BCD7SEG(
+  IN DI_0 BOOLEAN,
+  IN DI_1 BOOLEAN,
+  IN DI_2 BOOLEAN,
+  IN DI_3 BOOLEAN,
+  IN DI_4 BOOLEAN,
+  IN DI_5 BOOLEAN,
+  IN DI_6 BOOLEAN,
+  IN DI_7 BOOLEAN,
+  OUT DO_0 BOOLEAN,
+  OUT DO_1 BOOLEAN,
+  OUT DO_2 BOOLEAN,
+  OUT DO_3 BOOLEAN,
+  OUT DO_4 BOOLEAN,
+  OUT DO_5 BOOLEAN,
+  OUT DO_6 BOOLEAN,
+  OUT DO_7 BOOLEAN
+)
+BEGIN
+ IF DI_0 = false AND DI_1 = false AND DI_2 = false AND DI_3 = false THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = true; 
+        SET DO_5 = true; 
+        SET DO_6 = false; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = true AND DI_1 = false AND DI_2 = false AND DI_3 = false  THEN 
+        SET DO_0 = false; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = false; 
+        SET DO_4 = false; 
+        SET DO_5 = false; 
+        SET DO_6 = false; 
+        SET DO_7 = false; 
+    ELSEIF DI_0 = false AND DI_1 = true AND DI_2 = false AND DI_3 = false THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = false; 
+        SET DO_3 = true; 
+        SET DO_4 = true; 
+        SET DO_5 = false; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = true AND DI_1 = true AND DI_2 = false AND DI_3 = false  THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = false; 
+        SET DO_5 = false; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = false AND DI_1 = false AND DI_2 = true AND DI_3 = false THEN 
+        SET DO_0 = false; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = false; 
+        SET DO_4 = false; 
+        SET DO_5 = true; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = true AND DI_1 = false AND DI_2 = true AND DI_3 = false THEN 
+        SET DO_0 = true; 
+        SET DO_1 = false; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = false; 
+        SET DO_5 = true; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = false AND DI_1 = true AND DI_2 = true AND DI_3 = false THEN 
+        SET DO_0 = true; 
+        SET DO_1 = false; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = true; 
+        SET DO_5 = true; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = true AND DI_1 = true AND DI_2 = true AND DI_3 = false THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = false; 
+        SET DO_4 = false; 
+        SET DO_5 = false; 
+        SET DO_6 = false; 
+        SET DO_7 = false; 
+    ELSEIF DI_0 = false AND DI_1 = false AND DI_2 = false AND DI_3 = true THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = true; 
+        SET DO_5 = true; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    ELSEIF DI_0 = true AND DI_1 = false AND DI_2 = false AND DI_3 = true THEN 
+        SET DO_0 = true; 
+        SET DO_1 = true; 
+        SET DO_2 = true; 
+        SET DO_3 = true; 
+        SET DO_4 = false; 
+        SET DO_5 = true; 
+        SET DO_6 = true; 
+        SET DO_7 = false;
+    END IF;
+END
