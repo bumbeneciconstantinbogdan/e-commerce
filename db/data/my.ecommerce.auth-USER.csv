@@ -1,0 +1,3 @@
+USER_ID,EMAIL,PASSWORD,ACTIVE,ROLE_ID
+U00000001,bumbenecibogdan35@gmail.com,$2a$10$Xl5dtQ5TTlZIjQqfzqVsr.oz5Y0mtRyUnU2NAspvcXWh.sh14swbq,true,1
+U00000002,test@email.com,$2a$10$lLa0yaTcL6FoqNgokQHndehqQNQC4oDRFa3xJ4VyqZOTy6wMojK7a,true,2

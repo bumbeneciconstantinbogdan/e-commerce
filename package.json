@@ -6,23 +6,27 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^6",
-    "basic-auth": "^2.0.1",
+    "@sap/cds": "^7",
     "bcrypt": "^5.1.0",
-    "express": "^4"
+    "express": "^4",
+    "jsonwebtoken": "^9.0.1"
   },
   "devDependencies": {
-    "sqlite3": "^5.0.4"
+    "@cap-js/sqlite": "^1.1.0"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "SECRET='secret' cds run"
   },
   "cds": {
     "requires": {
+      "auth": {
+        "impl": "srv/auth-middleware.js"
+      },
       "db": {
         "kind": "sqlite",
+        "impl": "@cap-js/sqlite",
         "credentials": {
-          "database": "ecommerce.db"
+          "url": "ecommerce.db"
         }
       }
     }

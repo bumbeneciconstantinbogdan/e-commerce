@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "cds run --with-mocks",
+      "command": "npm start",
       "name": "cds run",
       "request": "launch",
       "type": "node-terminal",
