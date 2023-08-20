@@ -1,0 +1,14 @@
+{
+  "generator-ui5-app": {
+    "namespace": "my.ecommerce",
+    "framework": "SAPUI5",
+    "frameworkVersion": "1.117.0",
+    "author": "Constantin-Bogdan Bumbeneci",
+    "initrepo": false,
+    "appId": "my.ecommerce",
+    "appURI": "my/ecommerce",
+    "cdnDomain": "ui5.sap.com",
+    "defaultTheme": "sap_horizon",
+    "setupCompleted": true
+  }
+}

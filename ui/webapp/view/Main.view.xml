@@ -1,0 +1,89 @@
+<mvc:View
+    controllerName="my.ecommerce.controller.Main"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:fiori="sap.ui.webc.fiori"
+    xmlns:main="sap.ui.webc.main"
+    core:require="{
+        formatter: 'my/ecommerce/model/formatter'
+    }"
+    height="100%"
+>
+    <FlexBox
+        direction="Column"
+        height="100%"
+        alignItems="Stretch"
+        justifyContent="Start"
+    >
+        <f:ShellBar
+            id="sapFShellBarSample"
+            title="Application Title"
+            secondTitle="Short description"
+            homeIcon="./resources/sap/ui/documentation/sdk/images/logo_ui5.png"
+            showCopilot="true"
+            showSearch="true"
+            showMenuButton="true"
+            showNavButton="false"
+            showNotifications="true"
+            showProductSwitcher="true"
+            notificationsNumber="2"
+            menuButtonPressed=".handleToggleMenu"
+        >
+            <f:profile>
+                <Avatar initials="UI" />
+            </f:profile>
+        </f:ShellBar>
+        <FlexBox
+            direction="Row"
+            alignItems="Stretch"
+            justifyContent="Start"
+            height="100%"
+        >
+            <fiori:SideNavigation id="sideNavigation">
+                <fiori:header text="Work" />
+                <fiori:SideNavigationItem
+                    icon="home"
+                    text="Home"
+                />
+                <fiori:SideNavigationItem
+                    icon="employee"
+                    text="People"
+                >
+                    <fiori:items>
+                        <fiori:SideNavigationSubItem text="From My Team" />
+                        <fiori:SideNavigationSubItem text="From Other Teams" />
+                    </fiori:items>
+                </fiori:SideNavigationItem>
+                <fiori:SideNavigationItem
+                    icon="locate-me"
+                    text="Locations"
+                />
+                <fiori:SideNavigationItem
+                    icon="calendar"
+                    text="Events"
+                >
+                    <fiori:items>
+                        <fiori:SideNavigationSubItem text="Local" />
+                        <fiori:SideNavigationSubItem text="Other" />
+                    </fiori:items>
+                </fiori:SideNavigationItem>
+                <fiori:fixedItems>
+                    <fiori:SideNavigationItem
+                        icon="chain-link"
+                        text="Useful Links"
+                    />
+                    <fiori:SideNavigationItem
+                        icon="history"
+                        text="History"
+                    />
+                </fiori:fixedItems>
+            </fiori:SideNavigation>
+            <mvc:View>
+
+            </mvc:View>
+        </FlexBox>
+    </FlexBox>
+</mvc:View>
